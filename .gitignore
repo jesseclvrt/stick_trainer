@@ -1,0 +1,3 @@
+#ignore files that may be created from make
+trainer
+stick_trainer.o
