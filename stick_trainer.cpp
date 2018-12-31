@@ -6,9 +6,9 @@
 using namespace sf;
 
 namespace vars {
-    int range = 6;
-    int dx = (rand() % range) - (range / 2);
-    int dy = (rand() % range) - (range / 2);
+    int maxV = 6;
+    int dx = (rand() % maxV) - (maxV / 2);
+    int dy = (rand() % maxV) - (maxV / 2);
     int horiz = 1280;
     int vert = 720;
     int frames = 0;
@@ -65,24 +65,24 @@ void gameLoop(RenderWindow* window, Sprite* sprites) {
         Vector2f pos = sprites[0].getPosition();
         if (frames > 150) {
             frames = 0;
-            dx = (rand() % range) - (range / 2);
-            dy = (rand() % range) - (range / 2);
+            dx = (rand() % maxV) - (maxV / 2);
+            dy = (rand() % maxV) - (maxV / 2);
         }
         if (pos.x > horiz) { // go left
-            dx = (rand() % range) - range;
-        } else if (pos.x < 0) {
-            dx = rand() % range;
+            dx = (rand() % maxV) - maxV;
+        } else if (pos.x < 0) { // go right
+            dx = rand() % maxV;
         }
         if (pos.y > vert) { // go up
-            dy = (rand() % range) - range;
-        } else if (pos.y < 0) {
-            dy = rand() % range;
+            dy = (rand() % maxV) - maxV;
+        } else if (pos.y < 0) { // go down
+            dy = rand() % maxV;
         }
         sprites[0].setPosition(pos.x + dx, pos.y + dy);
         window->draw(sprites[0]);
         window->display();
         frames++;
-        
+
         usleep(16666);
     }
 }
