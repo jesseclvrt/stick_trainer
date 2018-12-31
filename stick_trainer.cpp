@@ -47,6 +47,25 @@ Sprite* createSprites(Texture* textures) {
     return sprites;
 }
 
+void updateTarVelocity(Vector2f tarPos) {
+    using namespace vars;
+    if (frames > 150) {
+        frames = 0;
+        dx = (rand() % maxV) - (maxV / 2);
+        dy = (rand() % maxV) - (maxV / 2);
+    }
+    if (tarPos.x > horiz) { // go left
+        dx = (rand() % maxV) - maxV;
+    } else if (tarPos.x < 0) { // go right
+        dx = rand() % maxV;
+    }
+    if (tarPos.y > vert) { // go up
+        dy = (rand() % maxV) - maxV;
+    } else if (tarPos.y < 0) { // go down
+        dy = rand() % maxV;
+    }
+}
+
 void gameLoop(RenderWindow* window, Sprite* sprites) {
     
     using namespace vars;
@@ -62,23 +81,9 @@ void gameLoop(RenderWindow* window, Sprite* sprites) {
         }
 
         window->clear(sf::Color::Blue);
-        Vector2f pos = sprites[0].getPosition();
-        if (frames > 150) {
-            frames = 0;
-            dx = (rand() % maxV) - (maxV / 2);
-            dy = (rand() % maxV) - (maxV / 2);
-        }
-        if (pos.x > horiz) { // go left
-            dx = (rand() % maxV) - maxV;
-        } else if (pos.x < 0) { // go right
-            dx = rand() % maxV;
-        }
-        if (pos.y > vert) { // go up
-            dy = (rand() % maxV) - maxV;
-        } else if (pos.y < 0) { // go down
-            dy = rand() % maxV;
-        }
-        sprites[0].setPosition(pos.x + dx, pos.y + dy);
+        Vector2f tarPos = sprites[0].getPosition();
+        updateTarVelocity(tarPos);
+        sprites[0].setPosition(tarPos.x + dx, tarPos.y + dy);
         window->draw(sprites[0]);
         window->display();
         frames++;
